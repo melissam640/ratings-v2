@@ -8,7 +8,7 @@ db = SQLAlchemy()
 class User(db.Model):
     """A user."""
 
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     user_id = db.Column(db.Integer,
                         autoincrement=True,
@@ -49,7 +49,7 @@ class Rating(db.Model):
                         primary_key=True)
     score = db.Column(db.Integer)
     movie_id = db.Column(db.Integer, db.ForeignKey("movie.movie_id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     movie = db.relationship("Movie", back_populates="ratings")
     user = db.relationship("User", back_populates="ratings")
