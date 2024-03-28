@@ -9,11 +9,37 @@ def create_user(email, password):
 
     return user
 
+def return_all_users():
+    """Return all user objects"""
+
+    users = db.session.query(User).all()
+
+    return users
+
+def get_user_by_id(this_user_id):
+    """Get user id."""
+
+    user = User.query.filter_by(user_id=this_user_id).first()
+    return user
+
 def create_movie(title, overview, release_date, poster_path):
     """Create and return a new movie."""
 
     movie = Movie(title=title, overview=overview, release_date=release_date,poster_path=poster_path)
     
+    return movie
+
+def return_all_movies():
+    """Return all movie objects"""
+
+    movies = db.session.query(Movie).all()
+
+    return movies
+
+def get_movie_by_id(this_movie_id):
+    """Get movie id."""
+
+    movie = Movie.query.filter_by(movie_id=this_movie_id).first()
     return movie
 
 def create_rating(movie, user, score):
