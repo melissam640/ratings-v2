@@ -22,6 +22,22 @@ def get_user_by_id(this_user_id):
     user = User.query.filter_by(user_id=this_user_id).first()
     return user
 
+def get_user_by_email(email):
+    """Get user by email."""
+
+    user = User.query.filter_by(email=email).first()
+    if user ==[]:
+        return None
+    else:
+        return user
+
+def check_user_match_password(email, password):
+    """Check if password matches user's password"""
+    user_password = get_user_by_email(email).password
+    if user_password == password:
+        return True
+    return False
+
 def create_movie(title, overview, release_date, poster_path):
     """Create and return a new movie."""
 

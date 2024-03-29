@@ -41,12 +41,57 @@ def show_users():
 
     return render_template('all_users.html', users=users)
 
+@app.route('/users', methods=['POST'])
+def create_account():
+    """Creates a user account"""
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    if crud.get_user_by_email(email) is not None:
+        flash('Account already exists with that email addres. Try again.')
+    else:
+        flash('Account created, please log in.')
+        user = crud.create_user(email,password)
+        db.session.add(user)
+        db.session.commit()
+
+    return redirect('/')
+
+@app.route('/login', methods=['POST'])
+def log_in():
+    """Log a user into their account"""
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = crud.get_user_by_email(email)
+    
+    if user is not None:
+        if crud.check_user_match_password(email,password):
+            flash('Logged in!')
+            session['current_user'] = user.user_id
+            return redirect('/')
+    
+    flash('Email or password incorrect, please try again.') 
+    return redirect('/')
+
+
 @app.route('/users/<user_id>')
 def show_user_details(user_id):
 
     user = crud.get_user_by_id(user_id)
 
     return render_template('user_details.html', user=user)
+
+@app.route('/movies/<movie_id>/rating', methods = ['POST'])
+def make_new_rating(movie_id):
+    rating = int(request.form.get('rating'))
+
+    rating = crud.create_rating(crud.get_movie_by_id(movie_id), crud.get_user_by_id(session['current_user']),rating)
+
+    db.session.add(rating)
+    db.session.commit()
+
+    return redirect('/movies')
 
 
 if __name__ == "__main__":

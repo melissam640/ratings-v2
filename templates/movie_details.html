@@ -5,9 +5,26 @@
 {% block body %}
 <h1>{{ movie.title }}</h1>
 
+
 <p>
   {{ movie.overview }}
 </p>
+
+{% if session.get('current_user') %}
+
+<form action="/movies/{{ movie.movie_id }}/rating" method="POST">
+  Movie Rating: <br>
+  {% for i in [0, 1,2,3,4,5] %}
+
+    <input type="radio" name="rating" value='{{ i }}' id=i>
+    <label for=i>{{  i  }}</label>
+  {% endfor %}
+  <br>
+  <input type="submit">
+</form>
+
+{% endif %}
+<br>
 
 <img src="{{ movie.poster_path }}">
 {% endblock %}

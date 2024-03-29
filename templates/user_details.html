@@ -9,4 +9,14 @@
   {{ user.email }}
 </p>
 
+{% if session.get('current_user') %}
+<h2>Ratings</h2>
+{% for rating in user.ratings %}
+  <ul>
+    <li> {{ rating.movie.title }}: {{rating.score}}</li>
+  </ul>
+{% endfor %}
+
+{% endif %}
+
 {% endblock %}
