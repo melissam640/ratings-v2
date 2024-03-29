@@ -31,8 +31,9 @@ def show_movies():
 def show_movie_details(movie_id):
 
     movie = crud.get_movie_by_id(movie_id)
+    ave_score = crud.get_movie_avg_score(movie)
 
-    return render_template('movie_details.html', movie=movie)
+    return render_template('movie_details.html', movie=movie, ave_score=ave_score)
 
 @app.route('/users')
 def show_users():

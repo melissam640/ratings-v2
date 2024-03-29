@@ -58,6 +58,19 @@ def get_movie_by_id(this_movie_id):
     movie = Movie.query.filter_by(movie_id=this_movie_id).first()
     return movie
 
+def get_movie_avg_score(movie):
+    """Get movie average score"""
+    all_ratings = movie.ratings
+
+    score = 0
+    if all_ratings != []:
+        for rating in all_ratings:
+            score = score + rating.score
+        score = score/len(all_ratings)
+        return str(score)
+    else:
+        return 'Not Rated'
+
 def create_rating(movie, user, score):
     """Create and return a new rating."""
 
